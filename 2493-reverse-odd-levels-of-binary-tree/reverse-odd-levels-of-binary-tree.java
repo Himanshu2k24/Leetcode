@@ -15,12 +15,12 @@
  */
 class Solution {
     public TreeNode reverseOddLevels(TreeNode root) {
-        reverseit(root.left,root.right,1);
+        reverseit(root.left,root.right,0);
         return root;
     }
     private void reverseit(TreeNode left,TreeNode right,int idx){
         if(left == null || right ==null) return;
-        if(idx % 2 == 1 ){
+        if(idx % 2 == 0 ){
             int  temp = left.val;
             left.val = right.val;
             right.val = temp;
