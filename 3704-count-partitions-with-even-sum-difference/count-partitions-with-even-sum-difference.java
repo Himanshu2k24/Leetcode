@@ -9,8 +9,7 @@ class Solution {
         for(int i =0;i<nums.length -1 ;i++){
             sum = sum + nums[i];
             totalsum = totalsum - nums[i];
-            int diff =  sum - totalsum;
-            if(diff % 2 == 0) ans++;
+            if((sum - totalsum) % 2 == 0) ans++;
         }
         return ans;
     }
