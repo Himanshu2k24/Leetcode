@@ -1,20 +1,17 @@
 class Solution {
     public int uniquePaths(int m, int n) {
-        int[][] matrix = new int[m][n];
-        int[][] dp = new int[m][n];
-        for(int[] d : dp){
-            Arrays.fill(d,-1);
-        }
-        return helper(matrix,0,0,m,n,dp);
+        int[][] grid = new int[m][n];
+        int[][] dp =new int[m][n];
+        for(int[] d : dp) Arrays.fill(d,-1);
+        return helper(grid,dp,0,0,m,n);
     }
-    private int helper(int[][] matrix,int i, int j, int m, int n,int[][] dp){
-        if(i > m-1 || j > n-1) return 0;
-        if(i == m - 1 && j == n -1) return 1;
-        
-        if(dp[i][j] != -1) return dp[i][j];
+    private int helper(int[][] grid,int[][] dp,int row,int col,int m,int n){
+        if(row == m -1 || col == n -1) return 1;
+        if(row == m || col == n) return 0;
+        if(dp[row][col] != -1) return dp[row][col];
+        int right = helper(grid,dp,row,col + 1,m,n);
+        int down = helper(grid,dp,row+1,col,m,n);
 
-        int down = helper(matrix,i+1,j,m,n,dp);
-        int right =  helper(matrix,i,j+1,m,n,dp);
-        return dp[i][j] = down + right;
+        return dp[row][col] = down + right;
     }
 }
