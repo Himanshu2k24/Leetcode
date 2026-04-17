@@ -1,17 +1,18 @@
 class Solution {
     public int uniquePaths(int m, int n) {
-        int[][] grid = new int[m][n];
-        int[][] dp =new int[m][n];
+        int[][] mat = new int[m][n];
+        int[][] dp = new int[m][n];
         for(int[] d : dp) Arrays.fill(d,-1);
-        return helper(grid,dp,0,0,m,n);
+        return helper(mat,0,0,dp);
     }
-    private int helper(int[][] grid,int[][] dp,int row,int col,int m,int n){
-        if(row == m -1 || col == n -1) return 1;
-        if(row == m || col == n) return 0;
-        if(dp[row][col] != -1) return dp[row][col];
-        int right = helper(grid,dp,row,col + 1,m,n);
-        int down = helper(grid,dp,row+1,col,m,n);
+    private int helper(int[][] mat,int i,int j,int[][] dp){
+        if(i >= mat.length || j >= mat[0].length) return 0;
+        if(i == mat.length -1 && j == mat[0].length -1) return 1;
 
-        return dp[row][col] = down + right;
+        if(dp[i][j] != -1) return dp[i][j];
+
+        int down = helper(mat,i+1,j,dp);
+        int right = helper(mat,i,j+1,dp);
+        return  dp[i][j] = down + right;
     }
 }
