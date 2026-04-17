@@ -14,8 +14,10 @@ class Solution {
         if(dp[i][amount] != -1) return dp[i][amount];
         
         int skip = helper(coins,amount,i+1,dp);
-        if(amount - coins[i] < 0) return skip;
-        int take = 1 +  helper(coins,amount - coins[i],i,dp);
+        int take = 1000000;
+        if(amount - coins[i] >= 0){
+            take = 1 +  helper(coins,amount - coins[i],i,dp);   
+        }
         return dp[i][amount] = Math.min(take,skip);
     }
 }
