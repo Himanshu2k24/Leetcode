@@ -1,34 +1,30 @@
 class Solution {
     public boolean canPartition(int[] nums) {
-        if(nums.length <2) return false;
-        int sum = 0;
-        for(int num:nums) sum += num;
-        if(sum % 2 != 0) return false;
-        int[][] dp = new int[nums.length][sum + 1];
+        int n = nums.length;
+        int target = 0;
+        
+        for(int i = 0; i < nums.length; i++) target += nums[i];
+        int[][] dp = new int[n][target / 2 + 1];
         for(int[] d : dp) Arrays.fill(d,-1);
-         
-        return helper(nums,0,sum /2,dp);
+        if(target % 2 != 0) return false;
+        return helper(nums,0,target / 2,dp);
+
     }
-    private boolean helper(int[] nums,int idx,int sum,int[][] dp){
-        if(nums.length == idx){
-            if(sum == 0) return true;
-            return false;
+    private boolean helper(int[] nums,int i,int target,int[][] dp){
+        if(target == 0) return true;
+        if(i >= nums.length || target < 0) return false;
+
+        if(dp[i][target] != -1){
+            return dp[i][target] == 1 ? true : false;
         }
-        if(dp[idx][sum] !=-1){
-            if(dp[idx][sum] == 1) return true;
-            return false;
+        boolean take = helper(nums,i+1,target - nums[i],dp);
+        boolean skip = helper(nums,i+1,target,dp);
+
+        if(take || skip) {
+            dp[i][target] = 1;
+        }else{
+            dp[i][target] = 0;
         }
-        boolean ans = false;
-        boolean skip = helper(nums,idx+1,sum,dp);
-        if(sum - nums[idx] < 0) return skip;
-        else{
-            boolean take = helper(nums,idx+1,sum - nums[idx],dp);
-            ans = skip || take;
-        }
-        if(ans) dp[idx][sum] = 1;
-        else{
-            dp[idx][sum] = 0;
-        }
-        return ans;
+        return dp[i][target] == 1 ? true : false;
     }
 }
